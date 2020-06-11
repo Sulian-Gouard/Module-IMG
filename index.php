@@ -1,5 +1,30 @@
+<?php
+
+
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="fr">
+
+<?php
+
+var_dump($_FILES);
+
+$fileSizeMax = 3000000;
+$fileSize = getimagesize($_FILES['myImg']['size']);
+
+if ($fileSize > $fileSizeMax) {
+    echo 'fihier trop volumineux';
+} else {
+    echo 'c\'est good';
+}
+
+
+
+?>
+
 
 <head>
     <meta charset="UTF-8">
@@ -20,7 +45,7 @@
         <div class="row">
             <div class="col-sm">
             <img class="preview">
-                <form>
+                <form method="post" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="myImg">parcourir images</label>
                         <input type="file" class="form-control" id="myImg" name="myImg" data-preview=".preview">
