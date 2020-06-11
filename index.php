@@ -3,9 +3,9 @@
 
 // Constantes
 define('TARGET', 'img/');    // Repertoire cible
-define('MAX_SIZE', 100000);    // Taille max en octets du fichier
-define('WIDTH_MAX', 800);    // Largeur max de l'image en pixels
-define('HEIGHT_MAX', 800);    // Hauteur max de l'image en pixels
+define('MAX_SIZE', 4*1000*1000);    // Taille max en octets du fichier
+define('WIDTH_MAX', 80000);    // Largeur max de l'image en pixels
+define('HEIGHT_MAX', 80000);    // Hauteur max de l'image en pixels
 
 // Tableaux de donnees
 $tabExt = array('jpg', 'gif', 'png', 'jpeg');    // Extensions autorisees
@@ -19,8 +19,8 @@ $nomImage = '';
 /************************************************************
  * Creation du repertoire cible si inexistant
  *************************************************************/
-if (!is_dir('TARGET')) {
-    if (!mkdir('TARGET', 0755)) {
+if (!is_dir(TARGET)) {
+    if (!mkdir(TARGET, 0755)) {
         exit('Erreur : le répertoire cible ne peut-être créé ! Vérifiez que vous diposiez des droits suffisants pour le faire ou créez le manuellement !');
     }
 }
@@ -28,9 +28,11 @@ if (!is_dir('TARGET')) {
 /************************************************************
  * Script d'upload
  *************************************************************/
+var_dump($_FILES);
+
 if (!empty($_POST)) {
     // On verifie si le champ est rempli
-    if (!empty($_FILES['fichier']['name'])) {
+    if (!empty($_FILES['fichier']['tmp_name'])) {
         // Recuperation de l'extension du fichier
         $extension  = pathinfo($_FILES['fichier']['name'], PATHINFO_EXTENSION);
 
@@ -38,6 +40,7 @@ if (!empty($_POST)) {
         if (in_array(strtolower($extension), $tabExt)) {
             // On recupere les dimensions du fichier
             $infosImg = getimagesize($_FILES['fichier']['tmp_name']);
+            var_dump($infosImg);
 
             // On verifie le type de l'image
             if ($infosImg[2] >= 1 && $infosImg[2] <= 14) {
@@ -102,14 +105,14 @@ if (!empty($_POST)) {
         <div class="row">
             <div class="col-sm">
                 <img class="preview">
-                <form enctype="multipart/form-data" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
+                <form enctype="multipart/form-data" action="" method="post">
                     <fieldset>
                         <legend>Formulaire</legend>
                         <p>
                             <label for="fichier_a_uploader" title="Recherchez le fichier à uploader !">Envoyer le fichier :</label>
                             <input type="hidden" name="MAX_FILE_SIZE" value="<?php echo MAX_SIZE; ?>" />
-                            <input name="fichier" type="file" id="fichier_a_uploader" />
-                            <input type="submit" name="submit" value="Uploader" />
+                            <input name="fichier" type="file" id="fichier_a_uploader" data-preview=".preview">
+                            <input type="submit" name="submit" value="Uploader">
                         </p>
                     </fieldset>
                 </form>
