@@ -1,3 +1,16 @@
+<?php
+if (isset($_FILES['myImg'])) {
+    $infosfichier = pathinfo($_FILES['myImg']['name']);
+    $extension_upload = $infosfichier['extension'];
+}
+
+if (isset($_FILES['myImg']['name'])) {
+    $message = 'Votre image : ' . $_FILES['myImg']['name'] . ' à bien était uploadée.';
+} else {
+    $message = 'Echec de l\'upload !';
+}
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -20,13 +33,14 @@
         <div class="row">
             <div class="col-sm">
             <img class="preview">
-                <form>
+                <form action="index.php" method="POST" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="myImg">parcourir images</label>
-                        <input type="file" class="form-control" id="myImg" name="myImg">
+                        <input type="file" class="form-control" id="myImg" name="myImg" data-preview=".preview">
                     </div>
                         <button type="submit" class="btn btn-primary">Upload</button>
                 </form>
+                <div><?= $message ?></div>
             </div>
         </div>
     </div>
