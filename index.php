@@ -3,7 +3,7 @@
 
 // Constantes
 define('TARGET', 'img/');    // Repertoire cible
-define('MAX_SIZE', 4*1000*1000);    // Taille max en octets du fichier
+define('MAX_SIZE', 6*1000*1000);    // Taille max en octets du fichier
 define('WIDTH_MAX', 80000);    // Largeur max de l'image en pixels
 define('HEIGHT_MAX', 80000);    // Hauteur max de l'image en pixels
 
@@ -52,9 +52,7 @@ if (!empty($_POST)) {
                 if (($infosImg[0] <= WIDTH_MAX) && ($infosImg[1] <= HEIGHT_MAX) && (filesize($fileTemp) <= MAX_SIZE)) {
                     // Parcours du tableau d'erreurs
                     if (
-                        isset($fileError)
-                        && UPLOAD_ERR_OK === $fileError
-                    ) {
+                        isset($fileError) && UPLOAD_ERR_OK === $fileError) {
                         // On renomme le fichier
                         $nomImage = md5(uniqid()) . '.' . $extension;
 
