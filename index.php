@@ -1,9 +1,9 @@
 <?php
 
-
+var_dump($_POST);
 // Constantes
 define('TARGET', 'img/');    // Repertoire cible
-define('MAX_SIZE', 6*1000*1000);    // Taille max en octets du fichier
+define('MAX_SIZE', 2*1000*1000);    // Taille max en octets du fichier
 define('WIDTH_MAX', 80000);    // Largeur max de l'image en pixels
 define('HEIGHT_MAX', 80000);    // Hauteur max de l'image en pixels
 
@@ -35,9 +35,10 @@ if (!empty($_POST)) {
     $fileName = $_FILES['fichier']['name'];
     $fileTemp = $_FILES['fichier']['tmp_name'];
     $fileError = $_FILES['fichier']['error'];
+    $filesize = $_FILES['fichier']['size'];
 
     // On verifie si le champ est rempli
-    if (!empty($fileName)) {
+    if (!empty($fileTemp)) {
         // Recuperation de l'extension du fichier
         $extension  = pathinfo($fileName, PATHINFO_EXTENSION);
 
@@ -80,7 +81,7 @@ if (!empty($_POST)) {
         }
     } else {
         // Sinon on affiche une erreur pour le champ vide
-        $message = 'Veuillez remplir le formulaire svp !';
+        $message = 'Veuillez uploader une image valide (Taille, Type ... ) !';
     }
 }
 
@@ -113,7 +114,7 @@ if (!empty($_POST)) {
                         <legend>Formulaire</legend>
                         <p>
                             <label for="fichier_a_uploader" title="Recherchez le fichier à uploader !">Envoyer le fichier :</label>
-                            <input type="hidden" name="MAX_FILE_SIZE" value="<?php echo MAX_SIZE; ?>">
+                            <?= MAX_SIZE / 1000000 . ' Mega Octet' ?>
                             <input name="fichier" type="file" id="fichier_a_uploader" data-preview=".preview">
                             <input type="submit" name="submit" value="Uploader">
                         </p>
